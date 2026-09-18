@@ -1,0 +1,6 @@
+interface:
+  display_name: "AI 工程助手"
+  short_description: "把复杂工程变成可控、可验证、可复用的协作流程"
+  default_prompt: "使用 $ai-engineering-assistant，把这个长期工程任务拆成契约、Agent 分工、证据验收和知识沉淀闭环。"
+policy:
+  allow_implicit_invocation: true
