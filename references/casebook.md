@@ -1,24 +1,24 @@
-# 案例档案
+# Casebook
 
-案例只记录去敏后的方法信息，不记录 API key、Cookie、密码、完整用户输入或未经授权的生产数据。
+Cases contain method information only after redaction. Do not record API keys, cookies, passwords, complete user inputs, or unauthorized production data.
 
-## 当前种子案例
+## Seed cases
 
-### codex-router 线上错误治理
+### `codex-router` production error governance
 
-- 场景：429、400、空响应、SSE 错误和租约问题。
-- 有效做法：恢复镜像基线，先增加结构化诊断日志，再用生产数据验证假设，单问题小步修改，补定向和全量测试，最后观察线上指标。
-- 常见失败：旧 memory 过期、错误工作副本、测试替身宽于真实函数、只用 `py_compile`、把测试通过当成业务修复。
-- 可复用原则：版本先核对；根因先观测；变更小步；测试独立；部署可回滚。
+- **Scenario:** 429, 400, empty responses, SSE errors, and lease problems.
+- **Effective practice:** Restore the image baseline, add structured diagnostic logs first, validate assumptions with production data, make one small change at a time, run targeted and full tests, and observe production metrics at the end.
+- **Common failures:** Stale memory, the wrong working copy, test doubles that are broader than the real function, relying only on `py_compile`, and treating passing tests as proof of a business fix.
+- **Reusable principles:** Verify versions first; observe before diagnosing; make small changes; verify independently; keep deployment reversible.
 
-### meridian PTY shim
+### `meridian` PTY shim
 
-- 场景：Claude Code 运行时、PTY、Bun/Node 兼容、容器代理和认证。
-- 有效做法：把运行时差异拆成 sidecar、离线 fake CLI smoke、单轮/多轮矩阵和真实 E2E，区分 PTY、代理、认证和上游失败。
-- 可复用原则：先做离线确定性验证，再做真实环境验证；错误分类必须保留运行时边界。
+- **Scenario:** Claude Code runtime, PTY, Bun/Node compatibility, container proxies, and authentication.
+- **Effective practice:** Separate runtime differences into sidecar behavior, offline fake-CLI smoke tests, single-turn/multi-turn matrices, and real E2E tests. Distinguish PTY, proxy, authentication, and upstream failures.
+- **Reusable principles:** Run deterministic offline validation before real-environment validation; preserve runtime boundaries in error classification.
 
-### Agent-Memory 导入
+### Agent memory import
 
-- 场景：长期会话导入、向量数据库、Panel 展示和知识库整理。
-- 有效做法：先对账数量和字段，再分批导入，失败可重试，敏感内容脱敏，导入结果与 Panel 和底层数据库交叉核对。
-- 可复用原则：原始数据保留、导入幂等、失败隔离、权限和生命周期明确。
+- **Scenario:** Long-session import, vector databases, Panel presentation, and knowledge-base organization.
+- **Effective practice:** Reconcile counts and fields first, import in batches, make failures retryable, redact sensitive content, and cross-check import results against Panel and the underlying database.
+- **Reusable principles:** Preserve raw data, make imports idempotent, isolate failures, and define permissions and lifecycle explicitly.

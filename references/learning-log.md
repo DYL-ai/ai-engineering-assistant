@@ -1,33 +1,33 @@
-# 学习日志
+# Learning Log
 
-格式：
+Format:
 
 ```text
-日期：YYYY-MM-DD
-任务：
-触发模式：
-用户修正/偏好：
-采用做法：
-结果证据：
-失败或反例：
-候选规则：
-是否晋升：否 / 候选 / 已晋升 / 已撤销
-影响文件：
-复审日期：
+Date: YYYY-MM-DD
+Task:
+Triggering mode:
+User correction/preference:
+Practice used:
+Result evidence:
+Failure or counterexample:
+Candidate rule:
+Promotion status: no / candidate / promoted / revoked
+Affected files:
+Review date:
 ```
 
-## 初始记录
+## Initial record
 
-日期：2026-09-18
+Date: 2026-09-18
 
-任务：把个人 AI 驾驭实践提炼为通用 Skill。
+Task: Extract personal AI steering practices into a reusable Skill.
 
-触发模式：长期、多项目、跨 Codex 和 Claude Code 的工程方法沉淀。
+Triggering mode: A long-running, multi-project engineering method spanning Codex and Claude Code.
 
-用户偏好：先提炼个人方法，再抽象通用能力；Skill 要能根据使用习惯和具体案例持续改进。
+User preference: Extract the personal method first, then generalize the reusable capability; the Skill must improve from usage patterns and concrete cases.
 
-初始决策：个人偏好放入 profile，通用流程放入 `SKILL.md` 和 references，案例放入 casebook，规则更新保留来源和复审记录。
+Initial decision: Keep personal preferences in the profile, the general workflow in `SKILL.md` and references, cases in the casebook, and rule updates with sources and review dates.
 
-边界：自适应可以更新低风险配置和案例；不得静默放宽生产、权限、秘密、删除、脱敏、验证和回滚门禁。
+Boundary: Adaptation may update low-risk configuration and case records; it must not silently relax production, permission, secret, deletion, redaction, verification, or rollback gates.
 
-状态：已落地。
+Status: Implemented.

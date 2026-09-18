@@ -1,27 +1,27 @@
-# 证据与验收
+# Evidence and Acceptance
 
-## 证据类型
+## Evidence types
 
-- **事实**：文件、代码、版本、日志、数据库或外部文档可以直接核对。
-- **实验**：按固定协议可复现，有输入、过程和结果。
-- **判断**：基于事实和实验的工程取舍。
-- **假设**：尚未验证、但为了推进工作暂时采用。
-- **建议**：下一步行动，不应写成已完成结果。
+- **Fact:** Directly checkable in a file, code, version, log, database, or external document.
+- **Experiment:** Reproducible under a fixed protocol with inputs, process, and results.
+- **Judgment:** An engineering trade-off based on facts and experiments.
+- **Assumption:** Not yet verified, but temporarily adopted to move the work forward.
+- **Recommendation:** A proposed next action; never present it as a completed result.
 
-## 最低验收
+## Minimum acceptance
 
-- 目标、非目标、版本和风险已明确。
-- 修改前有基线或样本。
-- 定向测试覆盖目标和至少一个失败路径。
-- 有独立验证、数据对账、日志或回放证据。
-- 生产、秘密、权限、删除和批量动作有人工门禁。
-- 有停止条件、观察窗口和回滚方法。
-- 结果进入日报、memory、FAQ、Skill、`AGENTS.md` 或回归测试。
+- Objectives, non-goals, version, and risk are explicit.
+- A baseline or sample exists before modification.
+- Targeted tests cover the goal and at least one failure path.
+- Independent validation, data reconciliation, logs, or replay provide evidence.
+- Production, secret, permission, deletion, and batch actions have a human gate.
+- Stop conditions, an observation window, and a rollback method exist.
+- The result is recorded in a daily report, memory, FAQ, Skill, `AGENTS.md`, or regression test.
 
-## 不能混淆的结论
+## Conclusions that must remain separate
 
-- 测试通过 ≠ 业务效果已证明。
-- 镜像构建成功 ≠ 线上 rollout 成功。
-- 日志存在 ≠ 能够完整回放。
-- 记忆写入成功 ≠ 检索内容正确且不过期。
-- 一次演示成功 ≠ 具备生产 SLO。
+- Passing tests ≠ business effectiveness is proven.
+- A successful image build ≠ a successful production rollout.
+- Existing logs ≠ a complete replay is possible.
+- Successful memory write ≠ retrieved content is correct and current.
+- A successful demo once ≠ a production SLO is established.

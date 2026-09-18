@@ -1,26 +1,26 @@
-# 已晋升的适配规则
+# Promoted Adaptation Rules
 
-这里只放经过重复案例验证、不会放宽安全边界的规则。候选规则先记录在 `casebook.md` 或 `learning-log.md`，满足晋升条件后再移动到这里。
+This file contains rules validated by repeated cases that do not weaken safety boundaries. Candidate rules stay in `casebook.md` or `learning-log.md` until they meet the promotion criteria.
 
-## 当前规则
+## Current rules
 
-### R-001 生产问题先观测后改行为
+### R-001 Observe before changing production behavior
 
-- 来源：`codex-router` 多次错误分类、冷却、租约和空响应问题。
-- 适用范围：有真实流量、重试、并发、配额或账号状态的 AI 网关和长运行服务。
-- 做法：先补结构化诊断或回放，确认根因后再改变重试、路由、冷却或并发行为。
-- 复审：每次相关线上事故后复审。
+- **Source:** Repeated `codex-router` issues involving error classification, cooldowns, leases, and empty responses.
+- **Scope:** AI gateways and long-running services with real traffic, retries, concurrency, quotas, or account state.
+- **Practice:** Add structured diagnostics or replay first, confirm the root cause, and only then change retry, routing, cooldown, or concurrency behavior.
+- **Review:** Revisit after every related production incident.
 
-### R-002 版本和工作副本必须现场核对
+### R-002 Verify versions and working copies in the live environment
 
-- 来源：旧 memory、父目录 Git、废弃工作副本和镜像版本造成的误判。
-- 适用范围：没有可靠本地版本控制、存在多个镜像或多个项目副本时。
-- 做法：核对路径、版本、镜像 digest、Git 根目录和部署状态，不凭口头记忆判断。
-- 复审：工作区或发布方式改变时复审。
+- **Source:** Misdiagnoses caused by stale memory, parent-directory Git repositories, abandoned working copies, and mismatched image versions.
+- **Scope:** Environments without reliable local version control or with multiple images or project copies.
+- **Practice:** Verify paths, versions, image digests, Git roots, and deployment state. Do not rely on verbal memory.
+- **Review:** Revisit when the workspace or release process changes.
 
-### R-003 测试结果必须和真实效果分开
+### R-003 Separate test results from real-world effectiveness
 
-- 来源：代码测试通过但线上数据、客户端协议或真实浏览器行为不一致的案例。
-- 适用范围：AI 网关、爬虫、动态网页、Agent-Memory 和生产部署。
-- 做法：测试之外补真实数据、回放、客户端、浏览器或线上观察证据。
-- 复审：出现测试通过后的生产回归时复审。
+- **Source:** Cases where code tests passed but production data, client protocols, or real browser behavior diverged.
+- **Scope:** AI gateways, crawlers, dynamic pages, Agent memory, and production deployment.
+- **Practice:** Add real-data, replay, client, browser, or production-observation evidence beyond tests.
+- **Review:** Revisit after a production regression that followed passing tests.

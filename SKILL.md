@@ -1,111 +1,109 @@
 ---
 name: ai-engineering-assistant
-description: 用于长期、复杂或高风险工程任务：把 Codex、Claude Code 和其他 Agent 组织成有任务契约、上下文、角色分工、证据验收、回滚和知识沉淀的可控工作流，并根据反复案例持续改进方法。
+description: Organizes Codex, Claude Code, and other Agents into a controlled workflow for long-running, complex, or high-risk engineering work, with task contracts, context, role boundaries, evidence, rollback, knowledge feedback, and traceable adaptation.
 metadata:
-  short-description: 把复杂工程变成可控可复用的 AI 协作流程
+  short-description: Turn complex engineering work into a controlled, verifiable, reusable AI workflow
 ---
 
-# AI 工程助手
+# AI Engineering Assistant
 
-## 适用范围
+## When to use
 
-当任务具有以下任一特征时使用本 skill：
+Use this skill when one or more of the following apply:
 
-- 跨多个会话、多个仓库或多个系统持续推进。
-- 需要 Codex、Claude Code、subagent、MCP 或外部工具协作。
-- 涉及生产服务、数据库、账号、权限、秘密、批量操作或部署。
-- 需要根据日志、代码、数据和历史记录反复排障或迭代。
-- 需要把一次性解决方案沉淀为团队可复用方法。
+- The work spans multiple sessions, repositories, or systems.
+- Codex, Claude Code, subagents, MCP, or external tools must cooperate.
+- The work involves production services, databases, accounts, permissions, secrets, batch operations, or deployment.
+- Logs, code, data, and historical records must be used repeatedly for diagnosis or iteration.
+- A one-off solution should become a reusable engineering method.
 
-简单问答、只读事实查询和明确的一步修改使用轻量模式，不要强行套完整流程。
+Use a lightweight approach for simple questions, read-only fact lookups, and explicit one-step edits.
 
-## 核心目标
+## Core objective
 
-把工作组织成这条闭环：
+Organize work into this loop:
 
-`目标 → 上下文 → 拆解 → 分工 → 执行 → 证据 → 决策 → 回滚/交付 → 知识回灌`
+`Objective → Context → Decomposition → Roles → Execution → Evidence → Decision → Rollback/Delivery → Knowledge Feedback`
 
-人负责目标、边界、风险、取舍和最终放行；Agent 负责调查、实现、测试和整理证据；工具和流程负责提供上下文、权限、可观测性和记忆。
+People own objectives, boundaries, risk, trade-offs, and final approval. Agents investigate, implement, test, and organize evidence. Tools and process provide context, permissions, observability, and memory.
 
-## 开始任务前
+## Before starting
 
-1. 判断任务模式：轻量、标准、长期项目、生产排障或高风险变更。
-2. 创建最小任务契约：目标、非目标、版本、风险等级、允许工具、成功标准、失败阈值和回滚方式。
-3. 装配最小上下文包：代码/配置版本、日志或数据样本、历史结论、当前基线和已知限制。
-4. 读取个人偏好与已批准的适配规则：
-   - [个人方法档案](references/personal-profile.md)
-   - [适配规则与学习机制](references/evolution-policy.md)
-5. 不把猜测写成事实；缺少关键证据时列出假设和验证方法。
+1. Classify the task: lightweight, standard, long-running project, production incident, or high-risk change.
+2. Create a minimal task contract: objective, non-goals, version, risk level, allowed tools, success criteria, failure thresholds, and rollback method.
+3. Assemble the minimum context package: code/config version, log or data samples, historical conclusions, current baseline, and known limitations.
+4. Read personal preferences and approved adaptation rules:
+   - [Personal profile](references/personal-profile.md)
+   - [Adaptation policy](references/evolution-policy.md)
+5. Never present a guess as a fact. When evidence is missing, list the assumption and the validation method.
 
-对 `L2` 和 `L3` 任务，先展示任务契约、基线和执行计划，并记录批准人、批准时间、批准范围和失效条件；没有记录就不能执行生产写入、批量变更、秘密/权限操作或 rollout。
+For `L2` and `L3` tasks, show the contract, baseline, and execution plan first. Record the approver, approval time, approved scope, and expiry or stop condition. Without that record, do not perform production writes, batch changes, secret or permission operations, or rollout.
 
-## 标准执行方式
+## Standard execution
 
-### 1. 保留主 Agent
+### 1. Keep a primary Agent
 
-主 Agent 负责目标拆解、上下文管理、冲突判断、最终整合和交付决定。立即阻塞关键路径的工作留在主 Agent，不为了并行而委派。
+The Primary Agent owns decomposition, context, conflict resolution, final integration, and the delivery decision. Work that immediately blocks the critical path stays with the Primary Agent; do not delegate merely to create parallelism.
 
-### 2. 分配互不重叠的工作包
+### 2. Assign non-overlapping work packages
 
-- `Explorer`：只读检查代码、日志、数据库和资料，输出事实、假设和证据。
-- `Implementer`：只修改契约指定的范围，输出 diff、测试和未覆盖项。
-- `Verifier`：独立执行测试、回放、对账和反例检查，不修改实现来让测试通过。
-- `Operator`：检查权限、镜像、部署、灰度、监控和回滚。
+- `Explorer`: read-only inspection of code, logs, databases, and documents; reports facts, assumptions, and evidence.
+- `Implementer`: changes only the scope defined by the contract; reports the diff, tests, and uncovered areas.
+- `Verifier`: independently runs tests, replay, reconciliation, and counterexample checks; does not modify the implementation to make tests pass.
+- `Operator`: checks permissions, images, deployment, canary rollout, monitoring, and rollback.
 
-每个工作包都写清输入、输出、可读范围、可写范围、禁止动作、验证方式和停止条件。同一文件不要由多个 Agent 同时写入。
+Each work package must define inputs, outputs, readable scope, writable scope, forbidden actions, verification method, and stop condition. Do not let multiple Agents write the same file concurrently.
 
-### 3. 先基线和观测，再改变行为
+### 3. Establish baseline and observability before changing behavior
 
-优先取得版本、指标、日志、样本、测试和部署状态。根因不清楚时，先补结构化观测或做回放，再修改重试、路由、并发、配额等行为。
+First collect versions, metrics, logs, samples, tests, and deployment state. When the root cause is unclear, add structured observation or replay before changing retries, routing, concurrency, quotas, or similar behavior.
 
-### 4. 最小变更与独立验证
+### 4. Make the smallest change and verify independently
 
-一次只解决一个已确认问题。验证必须覆盖目标路径、失败路径、边界条件、超时、空响应、重试、并发和兼容协议。测试通过不等于业务效果已经证明。
+Solve one confirmed problem at a time. Verification must cover the target path, failure paths, boundaries, timeouts, empty responses, retries, concurrency, and protocol compatibility. Passing tests does not prove business effectiveness.
 
-### 5. 高风险动作保留人工门禁
+### 5. Keep human gates for high-risk actions
 
-生产写入、批量数据库变更、秘密、权限、删除、镜像推送和 rollout 必须有预览、幂等检查、审计、观察窗口和回滚路径。skill 不会凭自身存在推断用户授权。
+Production writes, batch database changes, secrets, permissions, deletion, image pushes, and rollout require a preview, idempotency check, audit record, observation window, and rollback path. The skill never infers authorization from its own presence.
 
-### 6. 结束时完成知识回灌
+### 6. Feed knowledge back at the end
 
-把实际结果、失败假设、边界、证据和下一步写入日报、memory、FAQ、Skill、`AGENTS.md` 或回归测试。敏感值不得进入记忆、日志、示例或报告。
+Write actual results, failed assumptions, boundaries, evidence, and next steps into a daily report, memory, FAQ, Skill, `AGENTS.md`, or regression test. Never put sensitive values into memory, logs, examples, or reports.
 
-## 输出要求
+## Required output for complex tasks
 
-复杂任务结束时，输出以下内容：
+1. Result: complete, partial, paused, or blocked.
+2. Facts and evidence: code, logs, data, tests, versions, and deployment evidence.
+3. Changes: actual changes to files, configuration, images, or databases.
+4. Risks: unverified items, residual risks, and external dependencies.
+5. Rollback: how to stop the new behavior and restore the previous state.
+6. Knowledge feedback: new memory, FAQ, Skill, `AGENTS.md`, or regression samples.
 
-1. 结果：完成、部分完成、暂停或阻塞。
-2. 事实与证据：代码、日志、数据、测试、版本和部署证据。
-3. 修改：文件、配置、镜像或数据库的实际变化。
-4. 风险：未验证项、残余风险和外部依赖。
-5. 回滚：如何停止新行为并恢复旧状态。
-6. 沉淀：新增的 memory、FAQ、Skill、`AGENTS.md` 或回归样本。
+## Adaptive mechanism
 
-## 自适应机制
+This skill can update low-risk personal configuration and case records, but every update must remain traceable:
 
-本 skill 可以自主更新低风险的个人化配置和案例档案，但必须保持可追溯：
+1. Record an anonymized case after each applicable task: task type, selected mode, user correction, failure cause, effective practice, and result metrics.
+2. A clearly repeated user preference may be written to the personal profile immediately; a one-off behavior remains a candidate rule.
+3. Promote a pattern to an adaptation rule only after it appears at least three times without a counterexample.
+4. Every rule must include its source, scope, creation date, review date, evidence, and counterexamples. Downgrade or revoke it when it expires or the user corrects it.
+5. Prefer updating `references/personal-profile.md`, `references/casebook.md`, and `references/adapted-rules.md`, and record the change in [the learning log](references/learning-log.md).
+6. Never silently relax rules about security, permissions, production release, data retention, secret handling, or core acceptance criteria. Propose such changes explicitly and state them in the result.
 
-1. 每次适用任务结束后记录匿名案例：任务类型、采用的模式、用户修正、失败原因、有效做法和结果指标。
-2. 用户明确重复表达的偏好可立即写入个人档案；单次偶然行为只能记录为候选规则。
-3. 同一模式至少重复三次，且没有相反案例，才提升为适配规则。
-4. 规则必须带来源、适用范围、创建日期、复审日期和反例；过期或被用户纠正时降级或撤销。
-5. 自动更新优先修改 `references/personal-profile.md`、`references/casebook.md` 和 `references/adapted-rules.md`，并写入 [学习日志](references/learning-log.md)。
-6. 涉及安全、权限、生产放行、数据保留、秘密处理或核心验收标准的规则，不得静默放宽；只能提出变更并在结果中明确说明。
+Use `scripts/record_case.py` to record a case. It writes only to the selected Skill directory, does not connect to external services, and does not read secrets.
 
-可使用 `scripts/record_case.py` 记录案例。它只写入指定 skill 目录，不连接外部服务，不读取秘密。
+## Personalization and generalization
 
-## 个人化与通用化边界
+Personal preferences affect expression, context organization, Agent selection, and knowledge sinks. The current task still determines objectives, authorization, risk gates, and evidence requirements.
 
-个人偏好只影响表达、上下文组织、Agent 选择和沉淀位置；目标、授权、风险门禁和证据要求仍由当前任务决定。
+The personal profile is especially useful for AI gateways, routing, Kubernetes, log data, crawlers, Agent memory, and long-running projects. For other large projects, keep the loop and risk levels, then replace domain terminology, tools, and acceptance metrics instead of forcing the original implementation details.
 
-个人方法档案适合优先用于代理网关、路由、Kubernetes、日志数据、爬虫、Agent-Memory 和长周期项目。遇到其他大型项目时，保留闭环和风险分级，替换领域术语、工具和验收指标，不强行套用原项目的实现细节。
+## References
 
-## 相关参考
-
-- [个人方法档案](references/personal-profile.md)
-- [通用任务契约](references/task-contract.md)
-- [Agent 分工与编排](references/agent-orchestration.md)
-- [证据与验收](references/evidence-acceptance.md)
-- [适配规则与学习机制](references/evolution-policy.md)
-- [案例档案](references/casebook.md)
-- [学习日志](references/learning-log.md)
+- [Personal profile](references/personal-profile.md)
+- [Task contract](references/task-contract.md)
+- [Agent orchestration](references/agent-orchestration.md)
+- [Evidence and acceptance](references/evidence-acceptance.md)
+- [Adaptation policy](references/evolution-policy.md)
+- [Casebook](references/casebook.md)
+- [Learning log](references/learning-log.md)

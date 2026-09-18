@@ -1,38 +1,38 @@
-# 适配规则与学习机制
+# Adaptation Policy and Learning Mechanism
 
-## 学习来源
+## Learning sources
 
-优先使用以下来源：
+Prioritize these sources:
 
-1. 用户明确纠正、偏好或长期约束。
-2. 任务契约和验收结果。
-3. 失败、回滚、线上事故和复盘。
-4. 重复出现的工作模式和稳定指标。
-5. 单次成功但未经重复验证的尝试，只能作为候选案例。
+1. Explicit user corrections, preferences, and long-term constraints.
+2. Task contracts and acceptance results.
+3. Failures, rollbacks, production incidents, and postmortems.
+4. Repeated work patterns and stable metrics.
+5. A one-off success without repeated validation; this remains a candidate case only.
 
-## 晋升规则
+## Promotion rules
 
-- 用户明确说“以后都这样”时，可以直接更新个人偏好档案，并记录来源。
-- 同一做法至少出现三次，且没有相反案例，才可晋升为通用适配规则。
-- 规则必须包含：来源、适用范围、创建日期、复审日期、成功证据和反例。
-- 过期、被用户否定或出现反例时，降低优先级或撤销，不覆盖原始记录。
+- When the user explicitly says “do it this way from now on,” update the personal profile and record the source.
+- Promote a practice to a general adaptation rule only after it appears at least three times without a counterexample.
+- Every rule must include its source, scope, creation date, review date, successful evidence, and counterexamples.
+- Lower the priority or revoke a rule when it expires, the user rejects it, or a counterexample appears. Never overwrite the original record.
 
-## 可自动更新内容
+## Content that may be updated automatically
 
-- 个人表达和交付偏好。
-- 常用项目路径和知识沉淀位置。
-- 已验证的 Agent 分工偏好。
-- 常见故障的调查顺序。
-- 已复现的案例和回归样本索引。
+- Personal expression and delivery preferences.
+- Common project paths and knowledge sinks.
+- Validated Agent role preferences.
+- Investigation order for recurring failures.
+- Indexes of reproduced cases and regression samples.
 
-## 不得静默放宽的内容
+## Content that must never be relaxed silently
 
-- 生产、权限、秘密、删除和批量变更门禁。
-- 用户授权边界和项目 `AGENTS.md` 约束。
-- 敏感信息脱敏规则。
-- 独立验证和回滚要求。
-- 将假设、判断或建议写成事实的限制。
+- Production, permission, secret, deletion, and batch-change gates.
+- User authorization boundaries and project `AGENTS.md` constraints.
+- Sensitive-data redaction rules.
+- Independent verification and rollback requirements.
+- The restriction against presenting assumptions, judgments, or recommendations as facts.
 
-## 更新后的检查
+## Post-update review
 
-每次更新后记录：修改了什么、依据是什么、影响哪些任务、如何回滚、何时复审。优先修改 references 中的配置和案例；只有重复证据证明入口流程需要改变时，才修改 `SKILL.md`。
+After every update, record what changed, why it changed, which tasks it affects, how to roll it back, and when it will be reviewed. Prefer updating configuration and case records in `references/`; change `SKILL.md` only when repeated evidence shows that the entry workflow itself needs to change.

@@ -1,34 +1,34 @@
-# 个人方法档案
+# Personal Profile
 
-这是针对当前用户长期工作习惯提炼的默认配置。它可以被案例和用户明确反馈更新。
+This is the default configuration extracted from the user's long-term working habits. Cases and explicit user feedback may update it.
 
-## 工作偏好
+## Working preferences
 
-- 所有回复使用中文；代码、命令、路径和专有术语保持原样。
-- 先行动和核验，再汇报；不把计划当作结果。
-- 偏好从真实日志、数据库、生产状态和镜像内容建立结论。
-- 关注版本基线、可复现性、测试、回滚、日报和 memory。
-- 生产变更需要清楚说明影响、观察窗口、回滚方式和责任边界。
-- 不修改业务代码或扩大范围，除非任务契约或用户明确授权。
-- 重要工作完成后写入日报、memory、FAQ、README 或回归测试。
+- Respond in Chinese; keep code, commands, paths, and proper technical terms unchanged.
+- Act and verify first, then report; never present a plan as a result.
+- Prefer conclusions grounded in real logs, databases, production state, and image contents.
+- Prioritize version baselines, reproducibility, tests, rollback, daily reports, and memory.
+- For production changes, state the impact, observation window, rollback method, and responsibility boundary clearly.
+- Do not modify business code or expand scope unless the task contract or the user explicitly authorizes it.
+- After important work, write the result into a daily report, memory, FAQ, README, or regression test.
 
-## 常见工作域
+## Common work domains
 
-- AI 网关、模型路由、账号池、fallback、协议转换和 Claude Code/Codex 接入。
-- PTY、容器、代理、Kubernetes、数据库、日志和线上故障排查。
-- Agent-Memory、Wiki、长会话导入和团队知识治理。
-- Spider AI-Native、爬虫、动态页面识别和数据质量评估。
+- AI gateways, model routing, account pools, fallback, protocol translation, and Claude Code/Codex integration.
+- PTY, containers, proxies, Kubernetes, databases, logs, and production incident response.
+- Agent memory, wikis, long-session import, and team knowledge governance.
+- Spider AI-Native, crawlers, dynamic-page recognition, and data-quality evaluation.
 
-## 默认编排
+## Default orchestration
 
-- 主 Agent 保留关键路径和最终决策。
-- Explorer 只读调查；Implementer 做最小变更；Verifier 独立验证；Operator 检查发布和回滚。
-- Codex 通常适合代码、日志、数据和回归核验；Claude Code 通常适合长流程、方案、部署和知识整理，但应根据任务实际能力选择。
+- The Primary Agent keeps the critical path and final decision.
+- Explorer investigates read-only; Implementer makes the smallest change; Verifier validates independently; Operator checks release and rollback.
+- Codex is often useful for code, logs, data, and regression verification; Claude Code is often useful for long workflows, plans, deployment, and knowledge organization. Choose based on actual task capabilities.
 
-## 已知风险模式
+## Known risk patterns
 
-- 记忆或日报可能过期，先核对当前版本、线上状态和真实文件。
-- 测试通过不等于线上行为正确，必须做真实数据或回放验证。
-- 相似路径、父目录 Git、旧镜像和错误工作副本容易造成误判。
-- 字符串切片、宽松测试替身和未经验证的启发式容易引入静默回归。
-- 生产错误分类、重试、冷却、并发和租约问题需要先增加观测再改逻辑。
+- Memory or daily reports may be stale; verify the current version, live state, and real files first.
+- Passing tests does not prove correct production behavior; validate with real data or replay.
+- Similar paths, parent-directory Git repositories, old images, and the wrong working copy cause frequent misdiagnosis.
+- String slicing, permissive test doubles, and unverified heuristics can introduce silent regressions.
+- Production error classification, retries, cooldowns, concurrency, and lease issues require observation before logic changes.

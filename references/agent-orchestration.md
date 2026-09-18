@@ -1,31 +1,31 @@
-# Agent 分工与编排
+# Agent Roles and Orchestration
 
-## 角色
+## Roles
 
-- **主 Agent**：定义契约、管理上下文、整合证据、做最终决策。
-- **Explorer**：只读调查代码、日志、数据和资料，输出事实与假设。
-- **Implementer**：在明确范围内实现一个最小变更，输出 diff 和测试。
-- **Verifier**：独立测试、回放、对账和寻找反例，不修改实现。
-- **Operator**：检查权限、部署、监控、灰度和回滚。
+- **Primary Agent:** defines the contract, manages context, integrates evidence, and makes the final decision.
+- **Explorer:** investigates code, logs, data, and documents in read-only mode; reports facts and assumptions.
+- **Implementer:** implements one minimal change within an explicit scope; reports the diff and tests.
+- **Verifier:** independently tests, replays, reconciles, and searches for counterexamples; does not modify the implementation.
+- **Operator:** checks permissions, deployment, monitoring, canary rollout, and rollback.
 
-## 编排规则
+## Orchestration rules
 
-1. 先定义契约，再拆工作包。
-2. 每个工作包只能有一个主要职责。
-3. 同一文件不要并发写入。
-4. 立即阻塞主线的工作留在主 Agent。
-5. 只读角色不得修改文件。
-6. 验证角色不得为了让测试通过而修改实现。
-7. 部署、数据库写入、审批和回滚顺序执行。
-8. 每个输出区分事实、实验、判断、假设和建议。
+1. Define the contract before splitting the work.
+2. Give every work package one primary responsibility.
+3. Do not write the same file concurrently.
+4. Keep work that immediately blocks the main line with the Primary Agent.
+5. Read-only roles must not modify files.
+6. Verification roles must not modify the implementation to make tests pass.
+7. Execute deployment, database writes, approvals, and rollback sequentially.
+8. Label every output as fact, experiment, judgment, assumption, or recommendation.
 
-## 推荐图
+## Recommended graph
 
 ```text
-主 Agent：契约与基线
-  ├─ Explorer：代码/日志/数据
-  ├─ Explorer：历史方案/风险
-  ├─ Implementer：最小变更
-  └─ Verifier：独立验证/反例
-主 Agent：整合 → 人工审查 → 灰度/回滚 → 知识回灌
+Primary Agent: contract and baseline
+  ├─ Explorer: code/logs/data
+  ├─ Explorer: previous approaches/risks
+  ├─ Implementer: minimal change
+  └─ Verifier: independent validation/counterexamples
+Primary Agent: integration → human review → canary/rollback → knowledge feedback
 ```
